@@ -1,152 +1,188 @@
-<!-- resources/views/layouts/app.blade.php -->
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PGE-1</title>
+    <title>Digiliza Food</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
     <script src="https://kit.fontawesome.com/821b65200f.js" crossorigin="anonymous"></script>
 </head>
-<body>
-
 <style>
-    
-    h2, h6, hr{
-        color: #6f42c1; /* Cor do texto roxa */
+    body {
+        background-color: rgb(230, 230, 230);
     }
 
-    .navbar-brand {
-        margin-left: 20px; /* Adjust the value to your desired margin */
+    hr {
+        color: #BFBFBF;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        padding: 0;
     }
 
     .nav-link {
-        color: #6f42c1; /* Cor do texto dos links */
+        transition: background-color 0.3s ease-in-out;
+        font-size: 16px;
     }
 
     .nav-link:hover {
-        color: #6598ad; /* Cor que aparece quando o mouse passa por cima */
+        background-color: rgba(0, 0, 0, 0.5);
     }
 
-    .active {
-        color: #428aa3; /* Cor do texto dos links */
+    .small-extra-spacing {
+        margin-bottom: 10px;
     }
 
-    .bg-purple {
-        background-color: #6f42c1; /* Código hexadecimal para roxo */
+    .midle-extra-spacing {
+        margin-bottom: 20px;
     }
 
-    .btn-purple {
-        background-color: #6f42c1; /* Cor roxa */
-        color: #fff; /* Cor do texto */
+    .big-extra-spacing {
+        margin-bottom: 50px;
     }
 
-    .btn-purple:hover {
-        background-color: #5a2c9e; /* Cor roxa mais escura ao passar o mouse */
-        color: #fff;
+    .custom-navbar {
+        background-color: #BA0000 !important;
     }
 
-    html, body {
-        height: 100%;
-        margin: 0;
+    .custom-footer {
+        background-color: #BA0000 !important;
+        color: white;
     }
-    .content {
-        min-height: 100vh;
+
+    .sidebar {
+        background-color: rgb(39, 39, 39);
+        color: white;
+        padding-top: 20px;
+        height: 100vh;
+    }
+
+    .navbar-container {
+        flex-grow: 1;
+    }
+
+    .navbar-nav {
         display: flex;
-        flex-direction: column;
-    }
-    .flex-grow-1 {
-        flex: 1;
+        justify-content: flex-end;
     }
 
+    .container {
+        padding: 20px;
+    }
+
+    .sidebar img {
+        border-radius: 50%;
+        width: 120px;
+        height: 120px;
+    }
+
+    /* Novo estilo para o conteúdo */
+    .content-container {
+        background-color: white;
+        border-radius: 10px;
+        padding: 30px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Remover padding extra na sidebar e nos itens */
+    .nav-item {
+        padding-left: 0;
+        padding-right: 0;
+        margin-bottom: 0; /* Remover espaçamento entre os itens */
+    }
+
+    .nav.flex-column {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .nav-item a {
+        font-size: 15px;
+    }
+
+    .navbar-nav .nav-item .nav-link {
+        font-size: 16px;
+    }
+
+    .navbar-brand img {
+        width: 120px;
+    }
 </style>
-<div class="row">
-    <div class="col-12"> 
-        <nav class="navbar navbar-expand-lg navbar-dark bg-purple shadow-lg custom-navbar">
-            <div class="container-fluid">
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <a class="navbar-brand" href="{{ route('home') }}"><i class="fa-solid fa-backward"></i> PGE-1</a>
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="{{ route('welcome') }}">{{ auth()->user()->name }}</a>
-                        </li>
-                        <li class="nav-item text-white">
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-inline">
-                                @csrf
-                                <button type="submit" class="btn btn-outline-light">Logout</button>
-                            </form>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </div>
-    <div class="row">
-        <div class="col-2"> 
-            <div class="sidebar bg-light p-3" style="width: 250px; min-height: 100vh;">
-                <div class="text-center mb-4">
-                    <!-- User Image -->
-                    @if(auth()->user()->profile_picture)
-                        <img src="{{ asset('storage/' . auth()->user()->profile_picture) }}" alt="Foto de Perfil" class="img-thumbnail">
-                    @endif
-                    @error('profile_picture')
-                        <p class="text-danger">{{ $message }}</p>
-                    @enderror
-                    <h6>{{ auth()->user()->name }}</h6>
-                </div>
+
+<body>
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <div class="sidebar col-2">
+            <ul class="nav flex-column">
+                <div class="midle-extra-spacing"></div>
+                <li class="nav-item text-center">
+                    <img src="{{ asset('storage/user.jpeg') }}" alt="Logo">
+                    <div class="small-extra-spacing"></div>
+                    <h4 class="text-white">Maria Lucia</h4>
+                </li>
+                <div class="small-extra-spacing"></div>
                 <hr>
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('welcome') }}"> <i class="fa-solid fa-house"></i> Início</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('profile-configurations') }}"> <i class="fa-solid fa-user"></i> Perfil</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('simulations-dashboard') }}"><i class="fa-solid fa-graduation-cap"></i> Simulados</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fa-solid fa-pen"></i> Redações</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fa-solid fa-file-signature"></i> Planos</a>
-                    </li>
-                </ul>
+                <li class="nav-item">
+                    <a class="nav-link active text-white" href="#"><i class="fa-solid fa-calendar-check"></i> Início</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active text-white" href="#"><i class="fa-solid fa-calendar-check"></i> Reservas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="#"><i class="fa-solid fa-tags"></i> Mesas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="#"><i class="fa-solid fa-users"></i> Clientes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="#"><i class="fa-solid fa-helmet-safety"></i> Colaboradores</a>
+                </li>
                 <hr>
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('administrative-dashboard') }}"><i class="fa-solid fa-sliders"></i> Administrativo</a>
-                    </li>
-                </ul>
-            </div>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="#"><i class="fa-solid fa-backward"></i> Voltar para o Site</a>
+                </li>
+                <div class="big-extra-spacing"></div>
+            </ul>
         </div>
-        <div class="col-10">
-            <br>
-            <br>
-            <div class="flex-grow-1">
+
+        <!-- Main Content (Navbar + Content) -->
+        <div class="navbar-container col-9">
+            <!-- Navbar -->
+            <nav class="navbar navbar-expand-lg navbar-dark bg-danger shadow-lg custom-navbar">
+                <div class="container-fluid">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <a class="navbar-brand" href="{{ route('home') }}">
+                            <img src="{{ asset('storage/logo.png') }}" alt="Logo">
+                        </a>
+                        <ul class="navbar-nav ms-auto">
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="#">nome usuario</a>
+                            </li>
+                            <li class="nav-item">
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-inline">
+                                    @csrf
+                                    <button type="submit" class="btn btn-outline-light">Logout</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <div class="midle-extra-spacing"></div>
+
+            <!-- Content Area -->
+            <div class="container content-container">
                 @yield('content')
             </div>
         </div>
     </div>
-</div>
-
-</div>
-
-    <footer class="bg-purple text-white text-center py-3 mt-auto">
-        <div class="container">
-            <p class="mb-0">&copy; {{ date('Y') }} PGE-1. Todos os direitos reservados.</p>
-            <p class="mb-0">
-                <a href="{{ route('contact') }}" class="text-white">Contato</a> |
-                <a href="{{ route('plans') }}" class="text-white">Planos</a>
-            </p>
-        </div>
-    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
+<footer class="bg-danger text-white text-center py-3 custom-footer">
+    <p>&copy; 2024 Digiliza Food. Todos os direitos reservados.</p>
+</footer>
 </html>
-
-
