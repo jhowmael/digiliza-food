@@ -115,30 +115,34 @@
             <ul class="nav flex-column">
                 <div class="midle-extra-spacing"></div>
                 <li class="nav-item text-center">
-                    <img src="{{ asset('storage/user.jpeg') }}" alt="Logo">
+                    <img src="{{ asset('storage/' . auth()->user()->profile_picture) }}" alt="Foto de Perfil" class="img-thumbnail">
                     <div class="small-extra-spacing"></div>
-                    <h4 class="text-white">Maria Lucia</h4>
+                    <h4 class="text-white">{{ auth()->user()->name }}</h4>
                 </li>
                 <div class="small-extra-spacing"></div>
                 <hr>
                 <li class="nav-item">
-                    <a class="nav-link active text-white" href="#"><i class="fa-solid fa-calendar-check"></i> Início</a>
+                    <a class="nav-link active text-white" href="{{ route('administrative') }}"><i class="fa-solid fa-calendar-check"></i> Início</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active text-white" href="#"><i class="fa-solid fa-calendar-check"></i> Reservas</a>
+                    <a class="nav-link active text-white" href="{{ route('reservations.dashboard') }}"><i class="fa-solid fa-calendar-check"></i> Reservas</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="#"><i class="fa-solid fa-tags"></i> Mesas</a>
+                    <a class="nav-link text-white" href="{{ route('foodTables.dashboard') }}"><i class="fa-solid fa-tags"></i> Mesas</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="#"><i class="fa-solid fa-users"></i> Clientes</a>
+                    <a class="nav-link text-white" href="{{ route('users.customers-dashboard') }}"><i class="fa-solid fa-users"></i> Clientes</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="#"><i class="fa-solid fa-helmet-safety"></i> Colaboradores</a>
+                    <a class="nav-link text-white" href="{{ route('users.collaborators-dashboard') }}"><i class="fa-solid fa-helmet-safety"></i> Colaboradores</a>
                 </li>
                 <hr>
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="#"><i class="fa-solid fa-backward"></i> Voltar para o Site</a>
+                    <a class="nav-link text-white" href="{{ route('users.auto-view') }}"> <i class="fa-solid fa-user"></i> Perfil</a>
+                </li>
+                <hr>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{{ route('home') }}"><i class="fa-solid fa-backward"></i> Voltar para o Site</a>
                 </li>
                 <div class="big-extra-spacing"></div>
             </ul>
@@ -158,9 +162,6 @@
                         </a>
                         <ul class="navbar-nav ms-auto">
                             <li class="nav-item">
-                                <a class="nav-link text-white" href="#">nome usuario</a>
-                            </li>
-                            <li class="nav-item">
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-inline">
                                     @csrf
                                     <button type="submit" class="btn btn-outline-light">Logout</button>
@@ -176,6 +177,7 @@
             <div class="container content-container">
                 @yield('content')
             </div>
+            <div class="midle-extra-spacing"></div>
         </div>
     </div>
 

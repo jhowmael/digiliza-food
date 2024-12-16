@@ -1,6 +1,6 @@
-@extends('layouts.connect')
+@extends('layouts.web')
 
 @section('content')
-<p> adsadsa </p>
+<p> adsadsa web</p>
 
 @endsection

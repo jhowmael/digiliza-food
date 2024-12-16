@@ -1,16 +1,20 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
     public function showLoginForm()
     {
-        return view('login');
+        return view('users.login');
     }
 
     public function login(Request $request)
@@ -18,7 +22,7 @@ class UserController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-            return redirect()->intended('/welcome');
+            return redirect()->intended('/home');
         }
 
         return redirect()->back()->withErrors([
@@ -28,7 +32,7 @@ class UserController extends Controller
 
     public function showRegistrationForm()
     {
-        return view('auth.register');
+        return view('users.register');
     }
 
     public function register(Request $request)
@@ -52,13 +56,115 @@ class UserController extends Controller
 
     protected function create(array $data)
     {   
+        if(empty($data['type'])){
+            $data['type'] = config('users.autoTypeRegister');
+        };
+
+        if(empty($data['profile_picture'])){
+            $data['profile_picture'] = 'default-profile.png'; // Caminho relativo a partir de public/
+        };
+
         return User::create([
-            'type' => config('users.autoTypeRegister'), 
+            'type' => $data['type'], 
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'profile_picture' => $data['profile_picture'],
+
             'status' => config('users.autoStatusRegister'),
             'registered' => now(),
         ]);
     }
+
+    public function autoView()
+    {
+        $user = Auth::user();
+
+        return view('users.auto-view', compact('user'));
+    }
+
+    public function autoEditPassword()
+    {
+        $user = Auth::user();
+
+        return view('users.auto-edit-password', compact('user'));
+    }
+
+    public function autoEdit()
+    {
+        $user = Auth::user();
+
+        return view('users.auto-edit',compact('user'));
+    }
+
+    public function update(Request $request)
+    {
+        // Validar os dados do formulário
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . auth()->user()->id, // Exclui o email do usuário autenticado
+            'birthday' => 'required|date',
+            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validar imagem
+        ]);
+    
+        // Obter o usuário logado
+        $user = auth()->user();
+    
+        // Atualizar os dados do usuário
+        $user->name = $validatedData['name'];
+        $user->email = $validatedData['email'];
+        $user->birthday = $validatedData['birthday'];
+    
+        // Se houver uma nova imagem de perfil
+        if ($request->hasFile('profile_picture')) {
+            // Apagar a imagem antiga se houver
+            if ($user->profile_picture && $user->profile_picture != 'default-profile.png') {
+                Storage::delete('public/' . $user->profile_picture);
+            }
+    
+            // Salvar a nova imagem
+            $profilePicturePath = $request->file('profile_picture')->store('profile_pictures', 'public');
+            $user->profile_picture = $profilePicturePath;
+        }
+    
+        // Salvar as alterações no banco de dados
+        $user->save();
+    
+        // Retornar com uma mensagem de sucesso
+        return redirect()->route('users.auto-edit')->with('success', 'Perfil atualizado com sucesso!');
+    }
+
+    public function updatePassword(Request $request)
+    {
+        // Validação dos dados
+        $validatedData = $request->validate([
+            'current_password' => 'required|string',
+            'new_password' => 'required|string|min:8|confirmed', // A senha nova deve ser confirmada
+        ]);
+    
+        // Verificar se a senha atual está correta
+        if (!Hash::check($validatedData['current_password'], Auth::user()->password)) {
+            return back()->withErrors(['current_password' => 'A senha atual está incorreta.']);
+        }
+    
+        // Atualizar a senha do usuário
+        $user = Auth::user();
+        $user->password = Hash::make($validatedData['new_password']);
+        $user->save();
+    
+        // Redirecionar com uma mensagem de sucesso
+        return redirect()->route('users.auto-edit-password')->with('success', 'Senha alterada com sucesso!');
+    }
+
+    public function collaboratorsDashboard()
+    {
+        $collaborators = User::where('type', 'collaborator')->paginate(10);
+        return view('users.collaborators-dashboard', compact('collaborators'));
+    }
+
+    public function customersDashboard()
+    {
+        return view('users.customers-dashboard');
+    }
+    
 }
