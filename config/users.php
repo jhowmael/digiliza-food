@@ -68,4 +68,12 @@ return [
             'birthday' => 'Aniversário', 
         ],
     ],
+
+    'customers' => [
+        'defaultIncone' => 'fa-solid fa-users',
+    
+        'pluralDisplayName' => 'Clientes',
+    
+        'singularDisplayName' => 'Cliente',
+    ],
 ];

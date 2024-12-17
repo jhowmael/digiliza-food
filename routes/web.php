@@ -48,7 +48,11 @@ Route::get('users/collaborators-filter', [UserController::class, 'collaboratorsF
 Route::get('/users/collaborators-add', [UserController::class, 'collaboratorsAdd'])->name('users.collaborators-add');
 Route::post('/users', [UserController::class, 'store'])->name('users.store');
 
-
+Route::get('users/customers-dashboard', [UserController::class, 'customersDashboard'])->name('users.customers-dashboard');
+Route::get('users/customers-edit/{id}', [UserController::class, 'customersEdit'])->name('users.customers-edit');
+Route::get('users/customers-view/{id}', [UserController::class, 'customersView'])->name('users.customers-view');
+Route::get('users/customers-filter', [UserController::class, 'customersFilter'])->name('users.customers-filter');
+Route::get('/users/customers-add', [UserController::class, 'customersAdd'])->name('users.customers-add');
 //
 
 //RESERVATIONS

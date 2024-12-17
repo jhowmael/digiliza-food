@@ -162,9 +162,79 @@ class UserController extends Controller
         return view('users.collaborators-dashboard', compact('collaborators'));
     }
 
+    public function collaboratorsView($id)
+    {
+        $collaborator = User::where('id', $id)
+        ->where('type', 'collaborator')
+        ->first();
+
+        return view('users.collaborators-view', compact('collaborator'));
+    }
+
+
+    public function collaboratorsfilter(Request $request)
+    {
+        // Iniciando a consulta para as reservas
+        $query = User::query();
+
+        // Verificando se cada campo de filtro está presente e aplicando a condição na consulta
+        if ($request->filled('name')) {
+            $query->where('name', $request->name);
+        }
+
+        if ($request->filled('email')) {
+            $query->where('email', $request->email);
+        }
+
+        if ($request->filled('phone')) {
+            $query->where('phone', $request->phone);
+        }
+
+        $collaborators = $query->paginate(10);
+
+        return view('users.collaborators-filter', compact('collaborators'));
+    }
+    
+
     public function customersDashboard()
     {
-        return view('users.customers-dashboard');
+        $customers = User::where('type', 'customer')->paginate(10);
+        return view('users.customers-dashboard', compact('customers'));
     }
+
+    public function customersView($id)
+    {
+        $customer = User::where('id', $id)
+        ->where('type', 'customer')
+        ->first();
+
+        return view('users.customers-view', compact('customer'));
+    }
+
+
+
+    public function customersfilter(Request $request)
+    {
+        // Iniciando a consulta para as reservas
+        $query = User::query();
+
+        // Verificando se cada campo de filtro está presente e aplicando a condição na consulta
+        if ($request->filled('name')) {
+            $query->where('name', $request->name);
+        }
+
+        if ($request->filled('email')) {
+            $query->where('email', $request->email);
+        }
+
+        if ($request->filled('phone')) {
+            $query->where('phone', $request->phone);
+        }
+
+        $customers = $query->paginate(10);
+
+        return view('users.customers-filter', compact('customers'));
+    }
+    
     
 }

@@ -87,25 +87,28 @@ class ReservationController extends Controller
     // Método para armazenar os dados da reserva
     public function store(Request $request)
     {
-        // Validação dos dados
-        $request->validate([
-            'user_id' => 'required|integer',
-            'food_table_id' => 'required|integer',
+        // Validação dos dados enviados
+        $validated = $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'food_table_id' => 'required|exists:food_tables,id',
             'occupation' => 'required|string|max:255',
             'entry' => 'required|date',
-            // Adicione outras validações conforme necessário
+            'finished' => 'nullable|date',
+            'canceled' => 'nullable|date',
+            'status' => 'required|in:active,inactive,pending', // Use os status que você tem no config
         ]);
-
+    
         // Criação da nova reserva
-        $reservation = new Reservation();
-        $reservation->user_id = $request->user_id;
-        $reservation->food_table_id = $request->food_table_id;
-        $reservation->occupation = $request->occupation;
-        $reservation->entry = $request->entry;
-
-        $reservation->save();  // Salva a reserva no banco de dados
-
-        // Redireciona para a página de dashboard com uma mensagem de sucesso
+        $reservation = Reservation::create([
+            'user_id' => $request->user_id,
+            'food_table_id' => $request->food_table_id,
+            'occupation' => $request->occupation,
+            'entry' => $request->entry,
+            'finished' => $request->finished,
+            'canceled' => $request->canceled,
+            'status' => $request->status,
+        ]);
+    
         return redirect()->route('reservations.dashboard')->with('success', 'Reserva criada com sucesso!');
     }
 }

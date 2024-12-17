@@ -27,6 +27,8 @@ class Reservation extends Model
         'food_table_id',
         'occupation',
         'entry',
+        'finished',
+        'canceled'
     ];
 
     protected $dates = ['entry', 'created_at', 'updated_at'];

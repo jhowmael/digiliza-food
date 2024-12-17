@@ -1,12 +1,17 @@
 <?php 
 
 $arrayData = array(
-    'entities' => $foodTables,
-    'icone' => config('foodTables.defaultIncone'),
-    'entity_plural_display_name' => config('foodTables.pluralDisplayName'),
-    'entity_singular_display_name' => config('foodTables.singularDisplayName'),
-    'entity_plural_name' => 'foodTables',
-    'entity_singular_name' => 'foodTable',
+    'action_dashboard' => 'collaborators-dashboard',
+    'action_filter' => 'collaborators-filter',
+    'action_add' => false,
+    'action_view' => 'collaborators-view',
+
+    'entities' => $collaborators,
+    'icone' => config('collaborators.defaultIncone'),
+    'entity_plural_display_name' => config('collaborators.pluralDisplayName'),
+    'entity_singular_display_name' => config('collaborators.singularDisplayName'),
+    'entity_plural_name' => 'users',
+    'entity_singular_name' => 'user',
 );
 
 ?>
@@ -27,33 +32,26 @@ $arrayData = array(
                 </div>
                 <div class="card-body">
                     <!-- Formulário de Filtro -->
-                    <form action="{{ route($arrayData['entity_plural_name'] . '.filter') }}" method="GET">
+                    <form action="{{ route($arrayData['entity_plural_name'] . '.collaborators-filter') }}" method="GET">
                         @csrf
                         <div class="row">
                             <div class="col-md-12 mb-3">
-                                <label for="id" class="form-label">Id:</label>
-                                <input type="text" id="id" name="id" value="{{ request('id') }}" class="form-control">
+                                <label for="name" class="form-label">Nome:</label>
+                                <input type="text" id="name" name="name" value="{{ request('name') }}" class="form-control">
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-md-12 mb-3">
-                                <label for="number" class="form-label">Numero:</label>
-                                <input type="text" id="number" name="number" value="{{ request('food_table_id') }}" class="form-control">
+                                <label for="email" class="form-label">E-mail:</label>
+                                <input type="text" id="email" name="email" value="{{ request('email') }}" class="form-control">
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-md-12 mb-3">
-                                <label for="capacity" class="form-label">Capacidade:</label>
-                                <input type="text" id="capacity" name="capacity" value="{{ request('occupation') }}" class="form-control">
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-12 mb-3">
-                                <label for="status" class="form-label">Status:</label>
-                                <input type="text" id="status" name="status" value="{{ request('status') }}" class="form-control">
+                                <label for="phone" class="form-label">Telefone:</label>
+                                <input type="text" id="phone" name="phone" value="{{ request('phone') }}" class="form-control">
                             </div>
                         </div>
 
@@ -73,23 +71,24 @@ $arrayData = array(
                 <table class="table table-striped table-hover">
                         <thead>
                             <tr>
-                            <th class="text-center">Id</th>
-                                <th class="text-center">Number</th>
-                                <th class="text-center">Capacidade</th>
+                                <th class="text-center">Id</th>
+                                <th class="text-center">Nome</th>
+                                <th class="text-center">Email</th>
+                                <th class="text-center">Telefone</th>
                                 <th class="text-center">Status</th>
                                 <th class="text-center">Ações</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach($foodTables as $foodTable): ?>
+                            <?php foreach($collaborators as $collaborator): ?>
                                 <tr>
-                                    <td class="text-center"><?= $foodTable->id ?></td>
-                                    <td class="text-center"><?= $foodTable->number ?></td>
-                                    <td class="text-center"><?= $foodTable->capacity ?></td>
-                                    <td class="text-center"><?= config('foodTables.status.'. $foodTable->status) ?></td>
+                                    <td class="text-center"><?= $collaborator->id ?></td>
+                                    <td class="text-center"><?= $collaborator->name ?></td>
+                                    <td class="text-center"><?= $collaborator->email ?></td>
+                                    <td class="text-center"><?= $collaborator->phone ?></td>
+                                    <td class="text-center"><?= config('users.status.'. $collaborator->status) ?></td>
                                     <td class="text-center">
-                                        <a href="{{ route('foodTables.edit', $foodTable->id) }}" class="btn btn-warning btn-sm">Editar</a>
-                                        <a href="{{ route('foodTables.view', $foodTable->id) }}" class="btn btn-primary btn-sm">Visualizar</a>
+                                    <a href="{{ route('users.collaborators-view', $collaborator->id) }}" class="btn btn-primary btn-sm">Visualizar</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

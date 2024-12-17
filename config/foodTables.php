@@ -19,36 +19,4 @@ return [
 
     'singularDisplayName' => 'Mesa',
 
-    'dashboardFields' => [
-        'id' => 'Id',
-        'number' => 'Número',
-        'capacity' => 'Capacidade',
-        'status' => 'Status',
-    ],
-
-    'editFields' => [
-        'number' => 'Número',
-        'capacity' => 'Capacidade',
-        'status' => 'Status',
-    ],
-    
-    'filterFields' => [
-        'id' => 'Id',
-        'number' => 'Número',
-        'capacity' => 'Capacidade',
-        'status' => 'Status',
-    ],
-
-    'viewFields' => [
-        'id' => 'Id',
-        'number' => 'Número',
-        'capacity' => 'Capacidade',
-        'status' => 'Status',
-    ],
-
-    'addFields' => [
-        'number' => 'Número',
-        'capacity' => 'Capacidade',
-        'status' => 'Status',
-    ],
 ];
