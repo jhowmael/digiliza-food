@@ -15,6 +15,6 @@ $arrayData = array(
 
 @section('content')
 
-@include('elements.add-default', ['arrayData' => $arrayData])
+@include('elements.default-side-actions', ['arrayData' => $arrayData])
 
 @endsection

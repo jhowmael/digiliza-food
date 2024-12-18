@@ -19,7 +19,6 @@ $arrayData = array(
     <div class="row">
     @include('elements.default-side-actions', ['arrayData' => $arrayData])
 
-
         <div class="col-md-9">
             <div class="card mb-12">
                 <div class="card-header text-center">

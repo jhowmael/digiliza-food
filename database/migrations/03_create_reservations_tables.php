@@ -14,8 +14,8 @@ return new class extends Migration
             $table->unsignedBigInteger('food_table_id'); 
             $table->integer('occupation');  
             $table->dateTime('entry');  
-            $table->dateTime('finished');  
-            $table->dateTime('canceled');  
+            $table->dateTime('finished')->nullable();  
+            $table->dateTime('canceled')->nullable();
             $table->string('status')->nullable(); 
 
             $table->timestamps();  

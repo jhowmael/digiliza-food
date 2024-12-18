@@ -27,11 +27,13 @@
                         <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required>
                     </div>
                     <div class="d-grid gap-2">
-                        <button type="submit" class="btn btn-purple">Registrar</button>
+                        <button type="submit" class="btn btn-danger">Registrar</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
+<br>
+
 @endsection

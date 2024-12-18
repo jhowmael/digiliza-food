@@ -9,6 +9,10 @@ use App\Http\Controllers\FoodTableController;
 
 //WEB
 Route::get('/home', [WebController::class, 'home'])->name('home');
+Route::get('/reservation', [WebController::class, 'reservation'])->name('reservation');
+Route::post('store', [WebController::class, 'store'])->name('store');
+Route::put('/cancel-reservation/{id}', [WebController::class, 'cancelReservation'])->name('cancelReservation');
+
 //
 
 //ADMINISTRATIVE
@@ -16,16 +20,17 @@ Route::get('/administrative', [AdministrativeController::class, 'administrative'
 //
 
 //USERS
-Route::get('users/login', [UserController::class, 'showLoginForm'])->name('users.login');
-Route::post('users/login', [UserController::class, 'login']);
+Route::get('login', [UserController::class, 'showLoginForm'])->name('users.login');
+Route::post('login', [UserController::class, 'login']);
 
-Route::get('users/register', [UserController::class, 'showRegistrationForm'])->name('users.register.form');
-Route::post('users/register', [UserController::class, 'register'])->name('users.register');
+Route::get('register', [UserController::class, 'showRegistrationForm'])->name('users.register.form');
+Route::post('register', [UserController::class, 'register'])->name('users.register');
 
 Route::post('users/logout', function () {
     Auth::logout();
     return redirect('/home'); 
 })->name('logout');
+
 
 Route::get('users/auto-view', [UserController::class, 'autoView'])->name('users.auto-view');
 Route::get('users/auto-edit', [UserController::class, 'autoEdit'])->name('users.auto-edit');

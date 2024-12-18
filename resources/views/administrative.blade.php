@@ -8,7 +8,6 @@
         <p class="mb-4">Com um simples clique, você pode visualizar, adicionar e editar reservas, além de ajustar a configuração das mesas. Vamos otimizar seu espaço e sua gestão agora mesmo!</p>
     </div>
 
-    <!-- Seção Funcionalidades Principais -->
     <div class="container text-center">
         <h3 class="text-dark mb-4">Funcionalidades Principais</h3>
         <div class="row">

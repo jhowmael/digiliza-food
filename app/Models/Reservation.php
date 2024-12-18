@@ -28,7 +28,8 @@ class Reservation extends Model
         'occupation',
         'entry',
         'finished',
-        'canceled'
+        'canceled',
+        'status'
     ];
 
     protected $dates = ['entry', 'created_at', 'updated_at'];
